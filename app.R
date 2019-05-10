@@ -52,7 +52,9 @@ server <- function(input, output) {
               need(nchar(input$textIn) <= 2500, "Please do not enter more than 1000 DNA letters")),
       # If going from DNA to text, validate whether only DNA is enterd
       if(input$choice == "text"){
-        need(str_detect(input$textIn, "^[ATCG]*$"), "Please enter DNA only")}
+        # Trim whitespaces in DNA input and
+        # Check if there are other characters than ACTG
+        need(str_detect( input$textIn %>% str_remove_all("[ \n]"), "^[ATCG]*$"), "Please enter DNA only")}
     )
     
     as.character(input$textIn)
@@ -70,17 +72,13 @@ server <- function(input, output) {
     } else {
   
     # From DNA to text
-      S5_to_S1(inputText()) %>%
+      inputText() %>% 
+        str_remove_all("[ \n]") %>% 
+        S5_to_S1() %>%
         S1_to_S0()
     }
   })
   
-  # Warning message if entering DNA sequence when translating into DNA
-  output$warn <- renderText({
-    if (isolate(input$choice == "dna")){
-      str_detect(test, "[ACTG]")
-    }
-  })
   
 }
 
