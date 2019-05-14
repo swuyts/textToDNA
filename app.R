@@ -17,7 +17,7 @@ ui <- fluidPage(
    # Sidebar with a text input and option to translate to text or DNA.
    sidebarLayout(
       sidebarPanel(
-        width = 5,
+        width = 6,
         
         # Text input area
         textAreaInput(inputId = "textIn", label = "Input Text", width = "100%", placeholder = "Enter your text"),
@@ -26,13 +26,24 @@ ui <- fluidPage(
         radioButtons(inputId = "choice", label = "Translate into", choices = c("DNA" = "dna", "Plain text" = "text")),
         
         # Submit button
-        actionButton(inputId = "button", label = "Translate")
+        actionButton(inputId = "button", label = "Translate"),
+       
+        # Extra info
+        tags$div(class="header", checked=NA,
+                 tags$p(""),
+                 HTML("<br><h4> Designed and coded by <a href=https://sanderwuyts.com>Sander Wuyts</a></h4>" ),
+                 HTML("<br>
+                      Based on <a href=https://www.nature.com/articles/nature11875>Goldman et al (2013)</a> and <a href=https://github.com/swuyts/textToDNA>Allanino</a>."),
+                 HTML("Thank you to <a href=http://adrem.uantwerpen.be/>ADReM</a> for hosting this web app.")
+                 )
       ),
+      
+      
       
       
       # Show a plot of the generated distribution
       mainPanel(
-        width = 7,
+        width = 6,
         verbatimTextOutput(outputId = "out")
       )
    )
